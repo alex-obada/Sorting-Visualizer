@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QGroupBox" name="gbSorting">
+     <widget class="SortingGroupBox" name="gbSorting">
       <property name="title">
        <string/>
       </property>
@@ -72,6 +72,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SortingGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header location="global">sortinggroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
