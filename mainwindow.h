@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QHBoxLayout>
 
 #include "sortingelement.h"
 
@@ -17,7 +18,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QHBoxLayout* ResetSortingLayout();
+    void ResetSortingElements();
     void RandomiseNumbers();
+    void Sort();
 //    void SetNR(size_t n);
 
 private:
