@@ -15,6 +15,7 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    sortingelement.h \
     sortinggroupbox.h
 
 FORMS += \

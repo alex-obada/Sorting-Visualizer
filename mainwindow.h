@@ -15,7 +15,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+//    void SetNR(size_t n);
+
 private:
     Ui::MainWindow *ui;
+
+    size_t NR = 10;
 };
 #endif // MAINWINDOW_H
