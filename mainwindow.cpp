@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "sortingelement.h"
 
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -24,16 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
-    std::vector<SortingElement> elements(NR);
-    std::vector<size_t> numbers(NR);
+    elements.resize(NR);
+    RandomiseNumbers();
 
-    for(size_t i = 0; i < NR; ++i)
-        numbers[i] = i + 1;
-
-    srand(time(NULL));
-    std::random_shuffle(numbers.begin(), numbers.end());
-    for(size_t i = 0; i < NR; ++i)
-        elements[i].value = numbers[i];
 
     for(auto& element : elements)
     {
@@ -48,5 +40,18 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::RandomiseNumbers()
+{
+    std::vector<size_t> numbers(NR);
+    for(size_t i = 0; i < NR; ++i)
+        numbers[i] = i + 1;
+
+    srand(time(NULL));
+    std::random_shuffle(numbers.begin(), numbers.end());
+
+    for(size_t i = 0; i < NR; ++i)
+        elements[i].value = numbers[i];
 }
 

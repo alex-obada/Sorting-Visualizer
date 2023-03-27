@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "sortingelement.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -15,11 +17,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void RandomiseNumbers();
 //    void SetNR(size_t n);
 
 private:
     Ui::MainWindow *ui;
 
     size_t NR = 10;
+    std::vector<SortingElement> elements;
 };
 #endif // MAINWINDOW_H
