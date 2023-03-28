@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     {
         element.ptr = new QWidget();
         element.ptr->setStyleSheet("background-color: black;");
-        element.ptr->setMaximumHeight(element.value * element.ptr->height() / NR);
+        element.UpdateSize(NR, element.ptr->height());
         layout->addWidget(element.ptr);
     }
 
@@ -56,17 +56,12 @@ QHBoxLayout *MainWindow::ResetSortingLayout()
 
 void MainWindow::ResetSortingElements()
 {
-    auto layout = ResetSortingLayout();
-
     RandomiseNumbers();
     for(auto& element : elements)
     {
-
-        element.ptr->setMaximumHeight(element.value * ui->gbSorting->height() / NR);
-        layout->addWidget(element.ptr);
+        element.UpdateSize(NR, ui->gbSorting->height());
     }
 
-    ui->gbSorting->setLayout(layout);
 }
 
 void MainWindow::RandomiseNumbers()
@@ -84,8 +79,6 @@ void MainWindow::RandomiseNumbers()
 
 void MainWindow::Sort()
 {
-
-#if 0
     bool sorted = false;
     while(!sorted)
     {
@@ -94,17 +87,15 @@ void MainWindow::Sort()
             if(elements[i].value > elements[i + 1].value)
             {
                 sorted = false;
-                auto layout = ui->gbSorting->layout();
-                for(auto& element : elements)
-                    layout->removeWidget(element.ptr);
+//                auto layout = ResetSortingLayout();
 
-                std::swap(elements[i], elements[i + 1]);
+                std::swap(elements[i].value, elements[i + 1].value);
+                elements[i].UpdateSize(NR, ui->gbSorting->height());
+                elements[i + 1].UpdateSize(NR, ui->gbSorting->height());
                 elements[i].ptr->setStyleSheet("background-color: red;");
                 elements[i + 1].ptr->setStyleSheet("background-color: red;");
 
 
-                for(auto& element : elements)
-                    layout->addWidget(element.ptr);
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
@@ -112,6 +103,6 @@ void MainWindow::Sort()
                 elements[i + 1].ptr->setStyleSheet("background-color: black;");
             }
     }
-#endif
+
 }
 

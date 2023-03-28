@@ -27,7 +27,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    size_t NR = 10;
+    size_t NR = 10; //200;
     std::vector<SortingElement> elements;
 };
 #endif // MAINWINDOW_H
