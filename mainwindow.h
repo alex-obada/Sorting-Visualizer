@@ -18,7 +18,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QHBoxLayout* ResetSortingLayout();
+    QBoxLayout* ResetSortingLayout();
     void ResetSortingElements();
     void RandomiseNumbers();
     void Sort();
