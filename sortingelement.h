@@ -7,9 +7,9 @@ struct SortingElement {
     int value;
     QWidget* ptr;
 
-    void UpdateSize(size_t nmax, size_t height)
+    void UpdateSize(size_t valmax, size_t height)
     {
-        ptr->setMaximumHeight(value * height / nmax);
+        ptr->setMaximumHeight(value * height / valmax);
     }
 
     void SetColor(QString const& color)

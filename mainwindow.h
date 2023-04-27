@@ -20,14 +20,15 @@ public:
 
     QBoxLayout* ResetSortingLayout();
     void ResetSortingElements();
-    void RandomiseNumbers();
+    void RandomiseNumbers(std::vector<SortingElement>& elements);
+    void HighLightAllElements(size_t time);
     void Sort();
 //    void SetNR(size_t n);
 
 private:
     Ui::MainWindow *ui;
 
-    size_t NR = 10; //200;
+    size_t NR = 200;
     std::vector<SortingElement> elements;
 };
 #endif // MAINWINDOW_H
