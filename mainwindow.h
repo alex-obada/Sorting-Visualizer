@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include <QHBoxLayout>
 
-#include "sortingelement.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,17 +17,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QBoxLayout* ResetSortingLayout();
-    void ResetSortingElements();
-    void RandomiseNumbers(std::vector<SortingElement>& elements);
-    void HighLightAllElements(size_t time);
-    void Sort();
-//    void SetNR(size_t n);
-
 private:
     Ui::MainWindow *ui;
-
-    size_t NR = 200;
-    std::vector<SortingElement> elements;
 };
 #endif // MAINWINDOW_H

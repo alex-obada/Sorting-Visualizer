@@ -4,7 +4,7 @@
 #include <QWidget>
 
 struct SortingElement {
-    int value;
+    size_t value;
     QWidget* ptr;
 
     void UpdateSize(size_t valmax, size_t height)
