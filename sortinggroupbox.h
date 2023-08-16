@@ -22,9 +22,7 @@ public:
     void HighLightAllElements(size_t time);
     void Sort();
     void SetNumber(size_t n);
-    void SetSortingParameters(ModifyResult result);
-
-    ~SortingGroupBox();
+    void SetSortingParameters(ModifyResult const& result);
 
 private:
     void BubbleSort();
@@ -37,7 +35,7 @@ protected:
 private:
     size_t nelements;
     size_t time;
-    SortingMethod sortingMethod;
+    SortingAlgorithm algorithm;
     std::vector<SortingElement> elements;
     std::vector<size_t> tmp;
 };

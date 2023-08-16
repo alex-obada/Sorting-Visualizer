@@ -11,15 +11,7 @@
 
 SortingGroupBox::SortingGroupBox(QWidget *parent)
     : QGroupBox(parent)
-{
-
-}
-
-SortingGroupBox::~SortingGroupBox()
-{
-    for(auto& element : elements)
-        delete element.ptr;
-}
+{}
 
 void SortingGroupBox::resizeEvent(QResizeEvent *event)
 {
@@ -254,12 +246,24 @@ void SortingGroupBox::SetNumber(size_t n)
     }
 }
 
-void SortingGroupBox::SetSortingParameters(ModifyResult result)
+void SortingGroupBox::SetSortingParameters(ModifyResult const& result)
 {
     nelements = result.number;
-    time = result.time;
-    sortingMethod = result.sort;
+    time = result.speed;
+    algorithm = result.algorithm;
 
     elements.resize(nelements);
     RandomiseNumbers(elements);
+
+    auto layout = ResetSortingLayout();
+    this->setLayout(layout);
+
+    for(auto& element : elements)
+    {
+        element.ptr = new QWidget();
+        element.SetColor("black");
+        element.UpdateSize(nelements, element.ptr->height());
+
+        layout->addWidget(element.ptr); //, 0, Qt::AlignBottom | Qt::AlignHCenter);
+    }
 }

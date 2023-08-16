@@ -22,8 +22,7 @@ HEADERS += \
     sortinggroupbox.h
 
 FORMS += \
-    mainwindow.ui \
-    modifydialog.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

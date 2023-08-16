@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "modifydialog.h"
 
 #include <QApplication>
 

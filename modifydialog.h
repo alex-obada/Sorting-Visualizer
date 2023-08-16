@@ -5,6 +5,11 @@
 #include <chrono>
 
 #include <QDialog>
+#include <QLabel>
+#include <QGridLayout>
+#include <QComboBox>
+#include <QSpinBox>
+#include <QPushButton>
 
 #include "modifyresult.h"
 
@@ -20,10 +25,18 @@ public:
 
     ModifyResult GetResult() const;
     explicit ModifyDialog(QWidget *parent = nullptr);
-    ~ModifyDialog();
+    
+private:
+    void InitCbAlgorithm();
+    void InitSpinBoxes();
+    void InitButton();
+    void InitLayout();
 
 private:
-    Ui::ModifyDialog *ui;
+    QComboBox *cbAlgorithm;
+    QSpinBox *sbSpeed;
+    QSpinBox *sbNumber;
+    QPushButton *button;
 };
 
 #endif // MODIFYDIALOG_H

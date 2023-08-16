@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-enum SortingMethod {
+enum SortingAlgorithm {
     Empty = 0,
     Bubble = 1,
     Minimum = 2,
@@ -12,12 +12,17 @@ enum SortingMethod {
 };
 
 struct ModifyResult {
-    int time;
-    std::size_t number;
-    SortingMethod sort;
+    size_t speed;
+    size_t number;
+    SortingAlgorithm algorithm;
 
-    ModifyResult(int time = 0, size_t number = 0, SortingMethod sort = Empty)
-        : time { time }, number { number }, sort { sort } {}
+    ModifyResult(size_t speed = 0, size_t number = 0, SortingAlgorithm algorithm = Empty)
+        : speed { speed }, number { number }, algorithm { algorithm } {}
+
+    bool isValid() const noexcept
+    {
+        return algorithm;
+    }
 };
 
 #endif // MODIFYRESULT_H

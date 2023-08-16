@@ -16,6 +16,12 @@ struct SortingElement {
     {
         ptr->setStyleSheet("background-color: " + color + ';');
     }
+
+    ~SortingElement() 
+    { 
+        // se elibereaza automat de qt
+        // delete ptr;
+    }
 };
 
 
