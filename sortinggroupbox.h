@@ -8,7 +8,7 @@
 #include <QBoxLayout>
 
 #include "sortingelement.h"
-#include "ModifyResult.h"
+#include "modifyResult.h"
 
 class SortingGroupBox : public QGroupBox
 {
@@ -33,8 +33,8 @@ private:
 protected:
     void resizeEvent(QResizeEvent *event) override;
 private:
-    size_t nelements;
-    size_t time;
+    size_t elements_number;
+    size_t iter_sleep_time;
     SortingAlgorithm algorithm;
     std::vector<SortingElement> elements;
     std::vector<size_t> tmp;

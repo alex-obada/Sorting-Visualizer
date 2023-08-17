@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QTimer>
+#include <QMessageBox>
 
 #include <vector>
 #include <thread>
@@ -17,7 +18,7 @@ void SortingGroupBox::resizeEvent(QResizeEvent *event)
 {
     for(auto& element : elements)
     {
-        element.UpdateSize(nelements, this->height());
+        element.UpdateSize(elements_number, this->height());
     }
 }
 
@@ -34,7 +35,7 @@ void SortingGroupBox::ResetSortingElements()
     RandomiseNumbers(elements);
     for(auto& element : elements)
     {
-        element.UpdateSize(nelements, this->height());
+        element.UpdateSize(elements_number, this->height());
     }
 
     int r = rand() % elements.size();
@@ -44,7 +45,7 @@ void SortingGroupBox::ResetSortingElements()
 void SortingGroupBox::RandomiseNumbers(std::vector<SortingElement>& elements)
 {
     std::vector<size_t> numbers(elements.size());
-    for(size_t i = 0; i < nelements; ++i)
+    for(size_t i = 0; i < elements_number; ++i)
         numbers[i] = i + 1;
 
     //std::random_device rd;
@@ -52,7 +53,7 @@ void SortingGroupBox::RandomiseNumbers(std::vector<SortingElement>& elements)
     std::srand(std::time(NULL));
     std::random_shuffle(numbers.begin(), numbers.end());
 
-    for(size_t i = 0; i < nelements; ++i)
+    for(size_t i = 0; i < elements_number; ++i)
         elements[i].value = numbers[i];
 }
 
@@ -83,23 +84,30 @@ void SortingGroupBox::HighLightAllElements(size_t time)
 
 void SortingGroupBox::Sort()
 {
-    time = 10;
-//    switch (control)
-//    {
-//        case value:
-
-//            break;
-//        default:
-//            return;
-//    }
-//    BubbleSort();
-//    MinimumSort();
-    tmp.resize(elements.size());
-    MergeSort(0, elements.size() - 1);
+    switch (algorithm)
+    {
+        case SortingAlgorithm::Empty :
+            QMessageBox::critical(nullptr, tr("Eroare"), tr("Nu a fost specificata nicio sortare."));
+            return;
+        case SortingAlgorithm::Bubble :
+            BubbleSort();
+            break;
+        case SortingAlgorithm::Minimum :
+            MinimumSort();
+            break;
+        case SortingAlgorithm::MergeSort :
+        // todo: implement MergeSort wrapper 
+            MergeSort(0, elements.size() - 1);
+            break;
+        case SortingAlgorithm::QuickSort :
+        // todo: implement sorting
+            break;
+    }
+    // tmp.resize(elements.size());
     for(auto el : elements)
         qDebug() << el.value;
 
-    HighLightAllElements(time);
+    HighLightAllElements(iter_sleep_time);
 }
 
 void SortingGroupBox::BubbleSort()
@@ -116,21 +124,21 @@ void SortingGroupBox::BubbleSort()
             repaint();
             QCoreApplication::processEvents();
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(time));
+            std::this_thread::sleep_for(std::chrono::milliseconds(iter_sleep_time));
 
             if(elements[i].value > elements[i + 1].value)
             {
                 sorted = false;
                 std::swap(elements[i].value, elements[i + 1].value);
-                elements[i].UpdateSize(nelements, this->height());
-                elements[i + 1].UpdateSize(nelements, this->height());
+                elements[i].UpdateSize(elements_number, this->height());
+                elements[i + 1].UpdateSize(elements_number, this->height());
             }
             repaint();
             QCoreApplication::processEvents();
             elements[i].SetColor("black");
             elements[i + 1].SetColor("black");
             repaint();
-            std::this_thread::sleep_for(std::chrono::milliseconds(time));
+            std::this_thread::sleep_for(std::chrono::milliseconds(iter_sleep_time));
         }
     }
 }
@@ -160,19 +168,19 @@ void SortingGroupBox::MinimumSort()
                 index = j;
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(time));
+            std::this_thread::sleep_for(std::chrono::milliseconds(iter_sleep_time));
             elements[j].SetColor("black");
             repaint();
             QCoreApplication::processEvents();
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(time));
+            std::this_thread::sleep_for(std::chrono::milliseconds(iter_sleep_time));
         }
 
         if(minim < elements[i].value)
         {
             std::swap(elements[i].value, elements[index].value);
-            elements[i].UpdateSize(nelements, this->height());
-            elements[index].UpdateSize(nelements, this->height());
+            elements[i].UpdateSize(elements_number, this->height());
+            elements[index].UpdateSize(elements_number, this->height());
         }
         elements[i].SetColor("black");
         elements[index].SetColor("black");
@@ -216,11 +224,11 @@ void SortingGroupBox::Interclasare(size_t st, size_t dr)
 
         repaint();
         QCoreApplication::processEvents();
-        std::this_thread::sleep_for(std::chrono::milliseconds(time));
+        std::this_thread::sleep_for(std::chrono::milliseconds(iter_sleep_time));
         elements[i].SetColor("black");
         repaint();
         QCoreApplication::processEvents();
-        std::this_thread::sleep_for(std::chrono::milliseconds(time));
+        std::this_thread::sleep_for(std::chrono::milliseconds(iter_sleep_time));
 
     }
 
@@ -228,9 +236,9 @@ void SortingGroupBox::Interclasare(size_t st, size_t dr)
 
 void SortingGroupBox::SetNumber(size_t n)
 {
-    nelements = n;
+    elements_number = n;
 
-    elements.resize(nelements);
+    elements.resize(elements_number);
     RandomiseNumbers(elements);
 
     auto layout = ResetSortingLayout();
@@ -240,7 +248,7 @@ void SortingGroupBox::SetNumber(size_t n)
     {
         element.ptr = new QWidget();
         element.SetColor("black");
-        element.UpdateSize(nelements, element.ptr->height());
+        element.UpdateSize(elements_number, element.ptr->height());
 
         layout->addWidget(element.ptr); //, 0, Qt::AlignBottom | Qt::AlignHCenter);
     }
@@ -248,11 +256,11 @@ void SortingGroupBox::SetNumber(size_t n)
 
 void SortingGroupBox::SetSortingParameters(ModifyResult const& result)
 {
-    nelements = result.number;
-    time = result.speed;
+    elements_number = result.number;
+    iter_sleep_time = result.speed;
     algorithm = result.algorithm;
 
-    elements.resize(nelements);
+    elements.resize(elements_number);
     RandomiseNumbers(elements);
 
     auto layout = ResetSortingLayout();
@@ -262,7 +270,7 @@ void SortingGroupBox::SetSortingParameters(ModifyResult const& result)
     {
         element.ptr = new QWidget();
         element.SetColor("black");
-        element.UpdateSize(nelements, element.ptr->height());
+        element.UpdateSize(elements_number, element.ptr->height());
 
         layout->addWidget(element.ptr); //, 0, Qt::AlignBottom | Qt::AlignHCenter);
     }

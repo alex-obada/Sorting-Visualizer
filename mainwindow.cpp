@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnPlay, &QPushButton::clicked, this, [&](){
         ui->gbSorting->Sort();
     });
-    // ui->gbSorting->SetNumber(50);
+
     connect(ui->btnModify, &QPushButton::clicked, [&]() {
         UpdateSortingParameters();    
     });
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::UpdateSortingParameters()
 {
-    static ModifyDialog* dialog;
+    static ModifyDialog* dialog = nullptr;
     if(!dialog)
         dialog = new ModifyDialog();
 
