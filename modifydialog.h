@@ -11,7 +11,7 @@
 #include <QSpinBox>
 #include <QPushButton>
 
-#include "modifyresult.h"
+#include "sortingparameters.h"
 
 namespace Ui {
 class ModifyDialog;
@@ -23,7 +23,7 @@ class ModifyDialog : public QDialog
 
 public:
 
-    ModifyResult GetResult() const;
+    SortingParameters GetResult() const;
     explicit ModifyDialog(QWidget *parent = nullptr);
     
 private:

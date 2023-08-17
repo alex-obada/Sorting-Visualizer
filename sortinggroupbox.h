@@ -8,7 +8,7 @@
 #include <QBoxLayout>
 
 #include "sortingelement.h"
-#include "modifyResult.h"
+#include "sortingparameters.h"
 
 class SortingGroupBox : public QGroupBox
 {
@@ -22,12 +22,13 @@ public:
     void HighLightAllElements(size_t time);
     void Sort();
     void SetNumber(size_t n);
-    void SetSortingParameters(ModifyResult const& result);
+    void SetSortingParameters(SortingParameters const& result);
 
 private:
     void BubbleSort();
     void MinimumSort();
-    void MergeSort(size_t st, size_t dr);
+    void MergeSort();
+    void InnerMergeSort(size_t st, size_t dr);
     void Interclasare(size_t st, size_t dr);
 
 protected:

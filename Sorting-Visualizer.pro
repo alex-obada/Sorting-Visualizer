@@ -15,11 +15,11 @@ SOURCES += \
     sortinggroupbox.cpp
 
 HEADERS += \
-    modifyresult.h \
     mainwindow.h \
     modifydialog.h \
     sortingelement.h \
-    sortinggroupbox.h
+    sortinggroupbox.h \
+    sortingparameters.h
 
 FORMS += \
     mainwindow.ui

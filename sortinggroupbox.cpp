@@ -96,8 +96,7 @@ void SortingGroupBox::Sort()
             MinimumSort();
             break;
         case SortingAlgorithm::MergeSort :
-        // todo: implement MergeSort wrapper 
-            MergeSort(0, elements.size() - 1);
+            MergeSort();
             break;
         case SortingAlgorithm::QuickSort :
         // todo: implement sorting
@@ -189,13 +188,19 @@ void SortingGroupBox::MinimumSort()
     }
 }
 
-void SortingGroupBox::MergeSort(size_t st, size_t dr)
+void SortingGroupBox::MergeSort()
+{
+    tmp.resize(elements.size());
+    InnerMergeSort(0, elements.size() - 1);
+}
+
+void SortingGroupBox::InnerMergeSort(size_t st, size_t dr)
 {
     if(st == dr)
         return;
     int m = (st + dr) >> 1;
-    MergeSort(st, m);
-    MergeSort(m + 1, dr);
+    InnerMergeSort(st, m);
+    InnerMergeSort(m + 1, dr);
     Interclasare(st, dr);
 }
 
@@ -254,7 +259,7 @@ void SortingGroupBox::SetNumber(size_t n)
     }
 }
 
-void SortingGroupBox::SetSortingParameters(ModifyResult const& result)
+void SortingGroupBox::SetSortingParameters(SortingParameters const& result)
 {
     elements_number = result.number;
     iter_sleep_time = result.speed;

@@ -2,9 +2,9 @@
 
 #include <QMessageBox>
 
-ModifyResult ModifyDialog::GetResult() const
+SortingParameters ModifyDialog::GetResult() const
 {
-    ModifyResult result;
+    SortingParameters result;
     result.number = sbNumber->value();
     result.speed = sbSpeed->value();
     result.algorithm = (SortingAlgorithm)cbAlgorithm->currentIndex();
@@ -29,7 +29,7 @@ void ModifyDialog::InitCbAlgorithm()
     cbAlgorithm->addItem(tr("Alege Sortare"));
     cbAlgorithm->addItem(tr("Sortarea Bulelor"));
     cbAlgorithm->addItem(tr("Sortarea Minimului"));
-    cbAlgorithm->addItem(tr("Sortare prin Intercalare"));
+    cbAlgorithm->addItem(tr("Merge Sort"));
     cbAlgorithm->addItem(tr("Quick Sort"));
 }
 
