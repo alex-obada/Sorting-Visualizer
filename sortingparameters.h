@@ -5,8 +5,8 @@
 
 enum SortingAlgorithm {
     Empty = 0,
-    Bubble = 1,
-    Minimum = 2,
+    BubbleSort = 1,
+    MinimumSort = 2,
     MergeSort = 3,
     QuickSort = 4
 };

@@ -2,31 +2,11 @@
 #define SORTINGELEMENT_H
 
 #include <QWidget>
+#include <QBrush>
 
 struct SortingElement {
     size_t value;
     QColor color = Qt::black;
-    QRect rect;
-    
-    
-    ///////////////////////////////////
-    // QWidget* ptr;
-
-    void UpdateSize(size_t valmax, size_t height)
-    {
-        // ptr->setMaximumHeight(value * height / valmax);
-    }
-
-    void SetColor(QString const& color)
-    {
-        // ptr->setStyleSheet("background-color: " + color + ';');
-    }
-
-    ~SortingElement() 
-    { 
-        // se elibereaza automat de qt
-        // delete ptr;
-    }
 };
 
 

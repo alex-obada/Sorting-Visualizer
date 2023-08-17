@@ -16,23 +16,23 @@ class SortingGroupBox : public QGroupBox
 public:
     SortingGroupBox(QWidget* parent = nullptr);
 
-    QBoxLayout* ResetSortingLayout();
+    void Sort();
+    void SetSortingParameters(SortingParameters const& result);
+
+private:
     void ResetSortingElements();
     void RandomiseNumbers(std::vector<SortingElement>& elements);
-    void HighLightAllElements(size_t time);
-    void Sort();
-    void SetNumber(size_t n);
-    void SetSortingParameters(SortingParameters const& result);
+    void HighLightAllElements();
+    void Tick();
 
 private:
     void BubbleSort();
     void MinimumSort();
     void MergeSort();
     void InnerMergeSort(size_t st, size_t dr);
-    void Interclasare(size_t st, size_t dr);
+    void Merge(size_t st, size_t dr);
 
 protected:
-    void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
 private:

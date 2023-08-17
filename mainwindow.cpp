@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 #if _NO_DIALOG
     // 10 ms speed, 30 elements, MergeSort
-    ui->gbSorting->SetSortingParameters(SortingParameters(10, 30, MergeSort));
+    ui->gbSorting->SetSortingParameters(SortingParameters(40, 30, MergeSort));
 #else
     UpdateSortingParameters();
 #endif
