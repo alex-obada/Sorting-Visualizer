@@ -4,6 +4,9 @@
 #include <QDebug>
 #include <QTimer>
 #include <QMessageBox>
+#include <QPainter>
+#include <QPen>
+#include <QBrush>
 
 #include <vector>
 #include <thread>
@@ -20,6 +23,40 @@ void SortingGroupBox::resizeEvent(QResizeEvent *event)
     {
         element.UpdateSize(elements_number, this->height());
     }
+}
+
+void SortingGroupBox::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QPen pen;
+    pen.setColor(Qt::black);
+    // pen.setWidth(1);
+    painter.setPen(pen);
+
+    QBrush brush(Qt::black);
+    painter.setBrush(brush);
+
+    size_t space = 3; // pixels
+    size_t elem_width = (size().width() - space * (elements.size() - 1)) / elements.size();
+    size_t max_height = size().height(); 
+
+    size_t elem_height;
+    size_t x, y;
+
+    for(size_t i = 0; i < elements.size(); ++i)
+    {
+        elem_height = (double)elements[i].value / elements.size() * max_height;
+        x = elem_width * i + space * i;
+        y = size().height() - elem_height;
+
+        if(i + 1 == elements.size())
+            painter.drawRect(x, y, size().width() - x, elem_height);
+
+        painter.drawRect(x, y, elem_width, elem_height);
+    }
+    qDebug() << size().width();
 }
 
 QBoxLayout *SortingGroupBox::ResetSortingLayout()
@@ -39,7 +76,7 @@ void SortingGroupBox::ResetSortingElements()
     }
 
     int r = rand() % elements.size();
-    elements[r].ptr->setStyleSheet("background-color: red;");
+    // agf elements[r].ptr->setStyleSheet("background-color: red;");
 }
 
 void SortingGroupBox::RandomiseNumbers(std::vector<SortingElement>& elements)
@@ -108,6 +145,52 @@ void SortingGroupBox::Sort()
 
     HighLightAllElements(iter_sleep_time);
 }
+
+void SortingGroupBox::SetNumber(size_t n)
+{
+    elements_number = n;
+
+    elements.resize(elements_number);
+    RandomiseNumbers(elements);
+
+    auto layout = ResetSortingLayout();
+    this->setLayout(layout);
+
+    for(auto& element : elements)
+    {
+        // agf element.ptr = new QWidget();
+        element.SetColor("black");
+        // agf element.UpdateSize(elements_number, element.ptr->height());
+
+        // agf layout->addWidget(element.ptr); //, 0, Qt::AlignBottom | Qt::AlignHCenter);
+    }
+}
+
+void SortingGroupBox::SetSortingParameters(SortingParameters const& result)
+{
+    elements_number = result.number;
+    iter_sleep_time = result.speed;
+    algorithm = result.algorithm;
+
+    elements.resize(elements_number);
+    RandomiseNumbers(elements);
+
+    auto layout = ResetSortingLayout();
+    this->setLayout(layout);
+
+    for(auto& element : elements)
+    {
+        // agf element.ptr = new QWidget();
+        element.SetColor("black");
+        // agf element.UpdateSize(elements_number, element.ptr->height());
+
+        // agf layout->addWidget(element.ptr); //, 0, Qt::AlignBottom | Qt::AlignHCenter);
+    }
+}
+
+///////////////////////
+/// SORTING METHODS ///
+///////////////////////
 
 void SortingGroupBox::BubbleSort()
 {
@@ -237,46 +320,4 @@ void SortingGroupBox::Interclasare(size_t st, size_t dr)
 
     }
 
-}
-
-void SortingGroupBox::SetNumber(size_t n)
-{
-    elements_number = n;
-
-    elements.resize(elements_number);
-    RandomiseNumbers(elements);
-
-    auto layout = ResetSortingLayout();
-    this->setLayout(layout);
-
-    for(auto& element : elements)
-    {
-        element.ptr = new QWidget();
-        element.SetColor("black");
-        element.UpdateSize(elements_number, element.ptr->height());
-
-        layout->addWidget(element.ptr); //, 0, Qt::AlignBottom | Qt::AlignHCenter);
-    }
-}
-
-void SortingGroupBox::SetSortingParameters(SortingParameters const& result)
-{
-    elements_number = result.number;
-    iter_sleep_time = result.speed;
-    algorithm = result.algorithm;
-
-    elements.resize(elements_number);
-    RandomiseNumbers(elements);
-
-    auto layout = ResetSortingLayout();
-    this->setLayout(layout);
-
-    for(auto& element : elements)
-    {
-        element.ptr = new QWidget();
-        element.SetColor("black");
-        element.UpdateSize(elements_number, element.ptr->height());
-
-        layout->addWidget(element.ptr); //, 0, Qt::AlignBottom | Qt::AlignHCenter);
-    }
 }

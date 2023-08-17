@@ -33,6 +33,8 @@ private:
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+
 private:
     size_t elements_number;
     size_t iter_sleep_time;

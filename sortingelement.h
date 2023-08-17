@@ -5,16 +5,21 @@
 
 struct SortingElement {
     size_t value;
-    QWidget* ptr;
+    QColor color = Qt::black;
+    QRect rect;
+    
+    
+    ///////////////////////////////////
+    // QWidget* ptr;
 
     void UpdateSize(size_t valmax, size_t height)
     {
-        ptr->setMaximumHeight(value * height / valmax);
+        // ptr->setMaximumHeight(value * height / valmax);
     }
 
     void SetColor(QString const& color)
     {
-        ptr->setStyleSheet("background-color: " + color + ';');
+        // ptr->setStyleSheet("background-color: " + color + ';');
     }
 
     ~SortingElement() 
