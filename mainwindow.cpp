@@ -17,16 +17,30 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->btnPlay, &QPushButton::clicked, this, [&](){
+        if(ui->gbSorting->isBusy())
+            return;
+
+        ui->btnPlay->setDisabled(true);
+        ui->btnModify->setDisabled(true);
         ui->gbSorting->Sort();
+        ui->btnPlay->setDisabled(false);
+        ui->btnModify->setDisabled(false);
     });
 
     connect(ui->btnModify, &QPushButton::clicked, [&]() {
-        UpdateSortingParameters();    
+        UpdateSortingParameters();
+    });
+
+    connect(ui->btnPause, &QPushButton::clicked, [&]() {
+        if(!ui->gbSorting->isBusy())
+            return;
     });
 
 #if _NO_DIALOG
     // speed, elements, sorting
-    ui->gbSorting->SetSortingParameters(SortingParameters(100, 10, QuickSort));
+    ui->gbSorting->
+        SetSortingParameters(
+            SortingParameters(100, 10, QuickSort));
 #else
     UpdateSortingParameters();
 #endif

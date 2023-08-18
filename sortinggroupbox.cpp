@@ -19,6 +19,11 @@ void SleepFor(size_t milliseconds)
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
+bool SortingGroupBox::isBusy() const noexcept
+{
+    return busy;
+}
+
 void SortingGroupBox::Tick()
 {
     repaint();
@@ -74,12 +79,11 @@ void SortingGroupBox::paintEvent(QPaintEvent *event)
 
 void SortingGroupBox::ResetSortingElements()
 {
-    RandomiseNumbers(elements);
-
-    int r = rand() % elements.size();
+    RandomiseValuesOfElements();
+    repaint();
 }
 
-void SortingGroupBox::RandomiseNumbers(std::vector<SortingElement>& elements)
+void SortingGroupBox::RandomiseValuesOfElements()
 {
     std::vector<size_t> numbers(elements.size());
     for(size_t i = 0; i < elements_number; ++i)
@@ -95,10 +99,12 @@ void SortingGroupBox::RandomiseNumbers(std::vector<SortingElement>& elements)
 
 void SortingGroupBox::Sort()
 {
+    busy = true;
     switch (algorithm)
     {
         case SortingAlgorithm::Empty :
             QMessageBox::critical(nullptr, tr("Eroare"), tr("Nu a fost specificata nicio sortare."));
+            busy = false;
             return;
         case SortingAlgorithm::BubbleSort :
             BubbleSort();
@@ -115,6 +121,7 @@ void SortingGroupBox::Sort()
     }
 
     HighLightAllElements();
+    busy = false;
 }
 
 void SortingGroupBox::SetSortingParameters(SortingParameters const& result)
@@ -124,7 +131,7 @@ void SortingGroupBox::SetSortingParameters(SortingParameters const& result)
     algorithm       = result.algorithm;
 
     elements.resize(elements_number);
-    RandomiseNumbers(elements);
+    RandomiseValuesOfElements();
 }
 
 void SortingGroupBox::HighLightAllElements()

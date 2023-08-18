@@ -17,11 +17,12 @@ public:
     SortingGroupBox(QWidget* parent = nullptr);
 
     void Sort();
+    bool isBusy() const noexcept;
     void SetSortingParameters(SortingParameters const& result);
 
 private:
     void ResetSortingElements();
-    void RandomiseNumbers(std::vector<SortingElement>& elements);
+    void RandomiseValuesOfElements();
     void HighLightAllElements();
     void Tick();
 
@@ -43,6 +44,7 @@ private:
     SortingAlgorithm algorithm;
     std::vector<SortingElement> elements;
     std::vector<size_t> tmp;
+    bool busy = false;
 };
 
 #endif // SORTINGGROUPBOX_H

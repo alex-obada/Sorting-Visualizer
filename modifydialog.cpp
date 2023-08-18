@@ -9,9 +9,9 @@ SortingParameters ModifyDialog::GetResult() const
     result.speed = sbSpeed->value();
     result.algorithm = (SortingAlgorithm)cbAlgorithm->currentIndex();
 
-    qDebug() << "Algo:" << result.algorithm << '\n'
-             << " Timp:" << result.speed << '\n'
-             << " Nr  :" << result.number << '\n';
+    qDebug() << " Algo:" << result.algorithm << '\n'
+             << "Timp:" << result.speed << '\n'
+             << "Nr  :" << result.number << '\n';
 
     return result;
 }
@@ -40,7 +40,7 @@ void ModifyDialog::InitSpinBoxes()
     sbSpeed->setMinimum(0);
 
     sbNumber = new QSpinBox;
-    sbNumber->setMaximum(1000);
+    sbNumber->setMaximum(475);
     sbNumber->setMinimum(10);
 }
 
