@@ -31,6 +31,8 @@ private:
     void MergeSort();
     void InnerMergeSort(size_t st, size_t dr);
     void Merge(size_t st, size_t dr);
+    void QuickSort();
+    void InnerQuickSort(size_t st, size_t dr);
 
 protected:
     void paintEvent(QPaintEvent *event) override;

@@ -44,8 +44,14 @@ void SortingGroupBox::paintEvent(QPaintEvent *event)
     painter.setBrush(brush);
 
     size_t space = 3; // pixels
-    size_t elem_width = (size().width() - space * (elements.size() - 1)) / elements.size();
+    int64_t elem_width = (int64_t)(size().width() - space * (elements.size() - 1)) / 
+                         (int64_t)elements.size();
     size_t max_height = size().height(); 
+
+
+    // qDebug() << elem_width;
+    if(elem_width <= 0)
+        return;
 
     size_t elem_height;
     size_t x, y;
@@ -60,8 +66,8 @@ void SortingGroupBox::paintEvent(QPaintEvent *event)
 
         if(i + 1 == elements.size())
             painter.drawRect(x, y, size().width() - x, elem_height);
-
-        painter.drawRect(x, y, elem_width, elem_height);
+        else
+            painter.drawRect(x, y, elem_width, elem_height);
     }
 }
 
@@ -79,10 +85,9 @@ void SortingGroupBox::RandomiseNumbers(std::vector<SortingElement>& elements)
     for(size_t i = 0; i < elements_number; ++i)
         numbers[i] = i + 1;
 
-    //std::random_device rd;
-    //std::mt19937 g(rd());
-    std::srand(std::time(NULL));
-    std::random_shuffle(numbers.begin(), numbers.end());
+    static std::random_device rd;
+    static std::mt19937 g(rd());
+    std::shuffle(numbers.begin(), numbers.end(), g);
 
     for(size_t i = 0; i < elements_number; ++i)
         elements[i].value = numbers[i];
@@ -105,7 +110,7 @@ void SortingGroupBox::Sort()
             MergeSort();
             break;
         case SortingAlgorithm::QuickSort :
-        // todo: implement sorting
+            QuickSort();
             break;
     }
 
@@ -249,4 +254,68 @@ void SortingGroupBox::Merge(size_t st, size_t dr)
         elements[i].color = Qt::black;
         Tick();
     }
+}
+
+void SortingGroupBox::QuickSort()
+{
+    InnerQuickSort(0, elements.size() - 1);
+}
+
+void SortingGroupBox::InnerQuickSort(size_t st, size_t dr)
+{
+    if(st >= dr)
+        return;
+    
+    size_t pivot_index = (st + dr) >> 1;
+    size_t pivot = elements[pivot_index].value;
+    size_t i = st, j = dr;
+
+    elements[pivot_index].color = Qt::green;
+
+    while(i <= j)
+    {
+        while(elements[i].value < pivot)
+        {
+            elements[i].color = Qt::red;
+            Tick();
+            elements[i].color = Qt::black;
+            i++;
+        }
+        elements[i].color = Qt::red;
+
+        while(elements[j].value > pivot)
+        {
+            elements[j].color = Qt::red;
+            Tick();
+            elements[j].color = Qt::black;
+            j--;
+        }
+        elements[i].color = Qt::red;
+        Tick();
+
+        if(i <= j)
+        {
+            assert((long long)i >= 0);
+            assert((long long)j >= 0);
+
+            elements[i].color = Qt::blue;
+            elements[j].color = Qt::blue;
+            std::swap(elements[i++].value, elements[j--].value);
+            Tick();
+
+            elements[i - 1].color = Qt::black;
+            elements[j + 1].color = Qt::black;
+        }
+        else
+        {
+            elements[i].color = Qt::black;
+            elements[j].color = Qt::black;
+        }
+        Tick();
+    }
+
+    elements[pivot_index].color = Qt::black;
+
+    InnerQuickSort(st, j);
+    InnerQuickSort(i, dr);
 }

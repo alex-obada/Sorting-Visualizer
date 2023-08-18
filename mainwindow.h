@@ -9,7 +9,7 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define _NO_DIALOG 1
+#define _NO_DIALOG 0
 
 class MainWindow : public QMainWindow
 {
