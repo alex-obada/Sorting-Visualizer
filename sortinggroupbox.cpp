@@ -276,7 +276,6 @@ void SortingGroupBox::InnerQuickSort(size_t st, size_t dr)
     size_t pivot_index = (st + dr) >> 1;
     size_t pivot = elements[pivot_index].value;
     size_t i = st, j = dr;
-
     elements[pivot_index].color = Qt::green;
 
     while(i <= j)
@@ -290,19 +289,25 @@ void SortingGroupBox::InnerQuickSort(size_t st, size_t dr)
         }
         elements[i].color = Qt::red;
 
-        while(elements[j].value > pivot)
+        while(j >= 0 && elements[j].value > pivot)
         {
             elements[j].color = Qt::red;
             Tick();
             elements[j].color = Qt::black;
             j--;
         }
+
+        if((long long)j < 0)
+        {
+            elements[i].color = Qt::black;
+            return;
+        }
+
         elements[i].color = Qt::red;
         Tick();
-
+        
         if(i <= j)
         {
-            assert((long long)i >= 0);
             assert((long long)j >= 0);
 
             elements[i].color = Qt::blue;
@@ -320,7 +325,6 @@ void SortingGroupBox::InnerQuickSort(size_t st, size_t dr)
         }
         Tick();
     }
-
     elements[pivot_index].color = Qt::black;
 
     InnerQuickSort(st, j);
