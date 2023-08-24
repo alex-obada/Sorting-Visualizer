@@ -122,6 +122,13 @@ void SortingGroupBox::Sort()
 
     HighLightAllElements();
     busy = false;
+    stop = false;
+}
+
+void SortingGroupBox::Stop()
+{
+    if(busy || !stop)
+        stop = true;
 }
 
 void SortingGroupBox::SetSortingParameters(SortingParameters const& result)
@@ -136,6 +143,9 @@ void SortingGroupBox::SetSortingParameters(SortingParameters const& result)
 
 void SortingGroupBox::HighLightAllElements()
 {
+    if(stop)
+        return;
+
     for(size_t i = 0; i < elements.size(); ++i)
     {
         elements[i].color = Qt::red;
@@ -167,7 +177,9 @@ void SortingGroupBox::BubbleSort()
         sorted = true;
         for(size_t i = 0; i < elements.size() - 1; ++i)
         {
-            qDebug() << "elementele " << i + 1 << ' ' << i + 2;
+            if(stop)
+                return;
+
             elements[i].color = Qt::red;
             elements[i + 1].color = Qt::red;
             Tick();
@@ -197,7 +209,13 @@ void SortingGroupBox::MinimumSort()
 
         for(size_t j = i + 1; j < elements.size(); ++j)
         {
-            qDebug() << "element " << i + 1;
+            if(stop)
+            {
+                elements[i].color = Qt::black;
+                repaint();
+                return;
+            }
+
             elements[j].color = Qt::red;
             Tick();
 
@@ -209,10 +227,8 @@ void SortingGroupBox::MinimumSort()
         }
 
         if(index_min != i)
-        {
             std::swap(elements[i].value, elements[index_min].value);
 
-        }
         elements[i].color = Qt::black;
         elements[i + 1].color = Qt::black;
         Tick();
@@ -227,7 +243,7 @@ void SortingGroupBox::MergeSort()
 
 void SortingGroupBox::InnerMergeSort(size_t st, size_t dr)
 {
-    if(st == dr)
+    if(stop || st == dr)
         return;
     int m = (st + dr) >> 1;
     InnerMergeSort(st, m);
@@ -253,6 +269,9 @@ void SortingGroupBox::Merge(size_t st, size_t dr)
     while(j <= dr)
         tmp[++k] = elements[j++].value;
 
+    if(stop)
+        return;
+        
     for(size_t i = st; i <= dr; ++i)
     {
         elements[i].value = tmp[i - st];
@@ -270,7 +289,7 @@ void SortingGroupBox::QuickSort()
 
 void SortingGroupBox::InnerQuickSort(size_t st, size_t dr)
 {
-    if(st >= dr)
+    if(stop || st >= dr)
         return;
     
     size_t pivot_index = (st + dr) >> 1;

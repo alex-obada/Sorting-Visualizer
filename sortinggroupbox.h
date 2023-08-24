@@ -17,6 +17,7 @@ public:
     SortingGroupBox(QWidget* parent = nullptr);
 
     void Sort();
+    void Stop();
     bool isBusy() const noexcept;
     void SetSortingParameters(SortingParameters const& result);
 
@@ -45,6 +46,7 @@ private:
     std::vector<SortingElement> elements;
     std::vector<size_t> tmp;
     bool busy = false;
+    bool stop = false;
 };
 
 #endif // SORTINGGROUPBOX_H

@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->btnPause, &QPushButton::clicked, [&]() {
         if(!ui->gbSorting->isBusy())
             return;
+        ui->gbSorting->Stop();
     });
 
 #if _NO_DIALOG
