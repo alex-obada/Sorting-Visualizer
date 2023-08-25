@@ -20,7 +20,10 @@ public:
 private:
     void ConnectButtons();
     void UpdateSortingParameters();
-    
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
     Ui::MainWindow *ui;
 };

@@ -65,6 +65,11 @@ void MainWindow::UpdateSortingParameters()
     ui->gbSorting->SetSortingParameters(result);
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    ui->gbSorting->Stop();
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
