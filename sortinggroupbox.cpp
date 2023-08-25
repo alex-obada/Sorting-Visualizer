@@ -45,25 +45,21 @@ void SortingGroupBox::paintEvent(QPaintEvent *event)
 
     size_t space = 3; // pixels
     size_t max_height = size().height(); 
-    int64_t elem_width = (int64_t)(size().width() - space * (elements.size() - 1)) / 
-                         (int64_t)elements.size();
+    double elem_width = (double)(size().width() - space * (elements.size() - 1)) / elements.size();
     if(elem_width <= 0)
         return;
 
-    int64_t padding = (size().width() - 
-        (elements.size() * elem_width + (elements.size() - 1) * space)) / 2;
-    padding = padding < 0 ? 0 : padding;
-    size_t elem_height;
-    size_t x, y;
-
+    double elem_height;
+    double x, y;
     for(size_t i = 0; i < elements.size(); ++i)
     {
         elem_height = (double)elements[i].value / elements.size() * max_height;
-        x = padding + (elem_width * i + space * i);
+        x = (elem_width * i + space * i);
         y = size().height() - elem_height;
 
+        QRectF rect(x, y, elem_width, elem_height);
         painter.setBrush(elements[i].color);
-        painter.drawRect(x, y, elem_width, elem_height);
+        painter.drawRect(rect);
     }
 }
 
