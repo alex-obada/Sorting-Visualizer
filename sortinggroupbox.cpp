@@ -44,28 +44,26 @@ void SortingGroupBox::paintEvent(QPaintEvent *event)
     painter.setBrush(brush);
 
     size_t space = 3; // pixels
+    size_t max_height = size().height(); 
     int64_t elem_width = (int64_t)(size().width() - space * (elements.size() - 1)) / 
                          (int64_t)elements.size();
-    size_t max_height = size().height(); 
-
     if(elem_width <= 0)
         return;
 
+    int64_t padding = (size().width() - 
+        (elements.size() * elem_width + (elements.size() - 1) * space)) / 2;
+    padding = padding < 0 ? 0 : padding;
     size_t elem_height;
     size_t x, y;
 
     for(size_t i = 0; i < elements.size(); ++i)
     {
         elem_height = (double)elements[i].value / elements.size() * max_height;
-        x = elem_width * i + space * i;
+        x = padding + (elem_width * i + space * i);
         y = size().height() - elem_height;
 
         painter.setBrush(elements[i].color);
-
-        if(i + 1 == elements.size())
-            painter.drawRect(x, y, size().width() - x, elem_height);
-        else
-            painter.drawRect(x, y, elem_width, elem_height);
+        painter.drawRect(x, y, elem_width, elem_height);
     }
 }
 
@@ -303,7 +301,7 @@ void SortingGroupBox::InnerQuickSort(size_t st, size_t dr)
         }
         elements[i].color = Qt::red;
 
-        while(j >= 0 && elements[j].value > pivot)
+        while(elements[j].value > pivot)
         {
             elements[j].color = Qt::red;
             Tick();
