@@ -19,11 +19,6 @@ void SleepFor(size_t milliseconds)
     std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
-bool SortingGroupBox::isBusy() const noexcept
-{
-    return busy;
-}
-
 void SortingGroupBox::Tick()
 {
     repaint();
@@ -53,8 +48,6 @@ void SortingGroupBox::paintEvent(QPaintEvent *event)
                          (int64_t)elements.size();
     size_t max_height = size().height(); 
 
-
-    // qDebug() << elem_width;
     if(elem_width <= 0)
         return;
 
@@ -79,6 +72,8 @@ void SortingGroupBox::paintEvent(QPaintEvent *event)
 
 void SortingGroupBox::ResetSortingElements()
 {
+    if(busy)
+        return;
     RandomiseValuesOfElements();
     repaint();
 }

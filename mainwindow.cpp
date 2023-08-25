@@ -15,29 +15,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle(tr("Sorting Visualizer"));
 
-    connect(ui->btnPlay, &QPushButton::clicked, this, [&](){
-        if(ui->gbSorting->isBusy())
-            return;
+    ConnectButtons();
 
-        ui->btnPlay->setDisabled(true);
-        ui->btnModify->setDisabled(true);
-        ui->gbSorting->Sort();
-        ui->btnPlay->setDisabled(false);
-        ui->btnModify->setDisabled(false);
-    });
-
-    connect(ui->btnModify, &QPushButton::clicked, [&]() {
-        UpdateSortingParameters();
-    });
-
-    connect(ui->btnPause, &QPushButton::clicked, [&]() {
-        if(!ui->gbSorting->isBusy())
-            return;
-        ui->gbSorting->Stop();
-    });
-
-#if _NO_DIALOG
+#ifdef _NO_DIALOG
     // speed, elements, sorting
     ui->gbSorting->
         SetSortingParameters(
@@ -45,6 +27,31 @@ MainWindow::MainWindow(QWidget *parent)
 #else
     UpdateSortingParameters();
 #endif
+}
+
+void MainWindow::ConnectButtons()
+{
+    connect(ui->btnPlay, &QPushButton::clicked, this, [&](){
+        ui->btnReset->setDisabled(true);
+        ui->btnPlay->setDisabled(true);
+        ui->btnModify->setDisabled(true);
+        ui->gbSorting->Sort();
+        ui->btnPlay->setDisabled(false);
+        ui->btnModify->setDisabled(false);
+        ui->btnReset->setDisabled(false);
+    });
+
+    connect(ui->btnModify, &QPushButton::clicked, this, [&]() {
+        UpdateSortingParameters();
+    });
+    
+    connect(ui->btnStop, &QPushButton::clicked, this, [&]() {
+        ui->gbSorting->Stop();
+    });
+
+    connect(ui->btnReset, &QPushButton::clicked, this, [&]() {
+        ui->gbSorting->ResetSortingElements();
+    });
 }
 
 void MainWindow::UpdateSortingParameters()

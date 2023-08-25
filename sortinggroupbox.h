@@ -18,11 +18,10 @@ public:
 
     void Sort();
     void Stop();
-    bool isBusy() const noexcept;
+    void ResetSortingElements();
     void SetSortingParameters(SortingParameters const& result);
 
 private:
-    void ResetSortingElements();
     void RandomiseValuesOfElements();
     void HighLightAllElements();
     void Tick();

@@ -9,8 +9,6 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
-#define _NO_DIALOG 0
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -20,7 +18,9 @@ public:
     ~MainWindow();
 
 private:
+    void ConnectButtons();
     void UpdateSortingParameters();
+    
 private:
     Ui::MainWindow *ui;
 };

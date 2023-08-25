@@ -9,10 +9,6 @@ SortingParameters ModifyDialog::GetResult() const
     result.speed = sbSpeed->value();
     result.algorithm = (SortingAlgorithm)cbAlgorithm->currentIndex();
 
-    qDebug() << " Algo:" << result.algorithm << '\n'
-             << "Timp:" << result.speed << '\n'
-             << "Nr  :" << result.number << '\n';
-
     return result;
 }
 
